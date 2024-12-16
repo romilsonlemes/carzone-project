@@ -3,7 +3,7 @@ from .models import Team
 
 # Create your views here.
 def home(request):
-    teams = Team.objects.all().order_by('-first_name')
+    teams = Team.objects.all().order_by('first_name')
     data = {
         'teams' : teams,
     }
@@ -11,7 +11,11 @@ def home(request):
 
 
 def about(request):
-    return render(request, 'pages/about.html')
+    teams = Team.objects.all().order_by('first_name')
+    data = {
+    'teams' : teams,
+    }
+    return render(request, 'pages/about.html', data)
 
 def services(request):
     return render(request, 'pages/services.html')
