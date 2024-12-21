@@ -27,11 +27,11 @@ def about(request):
 def services(request):
     return render(request, 'pages/services.html')
 
-def cars(request):
-    return render(request, 'pages/cars.html')
-
 def contact(request):
     return render(request, 'pages/contact.html')
 
-def carDetails(request):
-    return render(request, 'pages/car-details.html')
+def cars(request):
+    return render(request, 'cars/cars.html')
+
+# def carDetails(request):
+#     return render(request, 'pages/car_details.html')
