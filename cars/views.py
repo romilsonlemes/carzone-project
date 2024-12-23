@@ -4,7 +4,7 @@ from .models import Car
 
 # Create your views here.
 def cars(request):
-    car = Car.objects.order_by('-created_date')
+    cars = Car.objects.order_by('-created_date')
     data = {
         'cars': cars,
     }
