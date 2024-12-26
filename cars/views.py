@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Car
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
+# ----------------------------------------------------------------------
 
 # Create your views here.
 def cars(request):
@@ -14,6 +15,7 @@ def cars(request):
     }
     return render(request, 'cars/cars.html', data)
 
+# ----------------------------------------------------------------------
 
 def car_detail(request, id):
     single_car = get_object_or_404(Car, pk=id)
@@ -22,7 +24,7 @@ def car_detail(request, id):
     }
     return render(request, 'cars/car_details.html', data)
 
-
+# ----------------------------------------------------------------------
 def search(request):
     cars = Car.objects.order_by('-created_date')
 
@@ -30,7 +32,7 @@ def search(request):
         keyword = request.GET['keyword']
         if keyword:
             cars = cars.filter(description__icontains=keyword)
-   
+
     if 'model' in request.GET:
         model = request.GET['model']
         if model:
@@ -57,8 +59,9 @@ def search(request):
         if max_price:
             cars = cars.filter(price__gte=min_price, price__lte=max_price)
 
-
     data = {
-    'cars': cars,  
+        'cars': cars,  
     }
     return render(request, 'cars/search.html', data)
+   
+# ----------------------------------------------------------------------

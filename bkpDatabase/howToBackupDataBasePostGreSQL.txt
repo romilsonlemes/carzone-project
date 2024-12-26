@@ -1,0 +1,1 @@
+docker exec -t <container_name_or_id> pg_dump -U <username> <database_name> > /path/on/host/backup.sql
