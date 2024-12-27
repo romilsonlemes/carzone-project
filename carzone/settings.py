@@ -67,7 +67,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-            'debug': True,  # Habilite debug para evitar cache
+            'debug': False,  # Habilite debug para evitar cache
         },
     },
 ]
