@@ -1,6 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Contact
+from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.core.mail import BadHeaderError
+from smtplib import SMTPException 
+from django.core.exceptions import ImproperlyConfigured
+import time
+from datetime import datetime
 
 # Create your views here.
 def inquiry(request):
@@ -30,6 +38,43 @@ def inquiry(request):
                           first_name=first_name, last_name=last_name, customer_need=customer_need,
                           city=city, state=state, email=email, phone=phone, message=message)
         
-        contact.save()
-        messages.success(request, 'Your request has been submitted, we will get bacj o your shortly.')
-        return redirect('/cars/'+ car_id)
+
+        try:
+                confirm_send_Email = False
+                #Send email
+                #--------------------------------------------------------------------------------------------
+                admin_info = User.objects.get(is_superuser=True)
+                admin_email = admin_info.email
+
+                start_time = time.time()
+                # Current Time
+                current_time = datetime.now()
+                print(f'Current time: {current_time}')
+                send_mail(
+                    'New Car Inquiry',
+                    'You have a new inquiry for the car ' + car_title + '. Please login to your afmin panel for more info.',
+                    'romilsonlemes@gmail.com',
+                    [admin_email, 'romilson.lemescordeiro@edu.sait.ca'],
+                    fail_silently=False,
+                )
+                confirm_send_Email = True
+                end_time = time.time()
+                print(f'Time to send: {end_time - start_time} seconds')
+
+        except BadHeaderError:
+            confirm_send_Email = False
+            print("Error: The subject e-mail is invalid.")
+    
+        except SMTPException as e:
+            confirm_send_Email = False
+            print(f"Error to send e-mail: {e}")                
+    
+
+        if confirm_send_Email == True:
+            # Save Contacts
+            #--------------------------------------------------------------------------------------------
+            contact.save()
+            messages.success(request, 'Your request has been submitted, we will get bacj o your shortly.')
+            return redirect('/cars/'+ car_id)
+            #--------------------------------------------------------------------------------------------
+        
