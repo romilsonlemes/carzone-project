@@ -50,6 +50,9 @@ def inquiry(request):
                 # Current Time
                 current_time = datetime.now()
                 print(f'Current time: {current_time}')
+                # Format mask the time
+                print("Current Time:", current_time.strftime("%H:%M:%S"))
+
                 send_mail(
                     'New Car Inquiry',
                     'You have a new inquiry for the car ' + car_title + '. Please login to your afmin panel for more info.',
