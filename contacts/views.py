@@ -40,7 +40,8 @@ def inquiry(request):
         
 
         try:
-                confirm_send_Email = False
+                confirm_send_Email = True
+                # confirm_send_Email = False # Official value
                 #Send email
                 #--------------------------------------------------------------------------------------------
                 admin_info = User.objects.get(is_superuser=True)
@@ -65,11 +66,13 @@ def inquiry(request):
                 print(f'Time to send: {end_time - start_time} seconds')
 
         except BadHeaderError:
-            confirm_send_Email = False
+            confirm_send_Email = True
+            # confirm_send_Email = False
             print("Error: The subject e-mail is invalid.")
     
         except SMTPException as e:
-            confirm_send_Email = False
+            confirm_send_Email = True
+            # confirm_send_Email = False
             print(f"Error to send e-mail: {e}")                
     
 
@@ -77,6 +80,7 @@ def inquiry(request):
             # Save Contacts
             #--------------------------------------------------------------------------------------------
             contact.save()
+            print("Inquiry was Saved Successfully !!!")
             messages.success(request, 'Your request has been submitted, we will get bacj o your shortly.')
             return redirect('/cars/'+ car_id)
             #--------------------------------------------------------------------------------------------
